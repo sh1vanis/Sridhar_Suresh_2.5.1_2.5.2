@@ -1,50 +1,67 @@
-/*
- * Activity 2.5.2
- *
- * A Board class the PhraseSolverGame
- */
 import java.util.Scanner;
 import java.io.File;
 
-public class  Board
-{
+//The board class gives the program various elements that will be used to represent the game board. Some of these elements are the ability to view a randomly displayed phrase, to guess a letter or word that may be contained in the phrase, and it sets up the programs structure for checking these guesses against the phrase, giving points accordingly based on the answer. 
+
+public class Board {
   private String solvedPhrase;
   private String phrase;
   private int currentLetterValue; 
 
-  /* your code here - constructor(s) */ 
-  public Board(){
+  public Board() {
     solvedPhrase = "";
-    phrase = "";
-    setLetterValue();
     phrase = loadPhrase();
-    System.out.println("Phrase: " + phrase);
+    setLetterValue();
+    // displayInitialSolvedPhrase();
   }
-  /* your code here - accessor(s) */
-  
-  /* your code here - mutator(s)  */
 
+  public String getPhrase() {
+    return phrase;
+  }
 
-  /* ---------- provided code, do not modify ---------- */
-  public void setLetterValue()
-  {
+  public String getSolvedPhrase() {
+    return solvedPhrase;
+  }
+
+  public int getCurrentLetterValue() {
+    return currentLetterValue;
+  }
+
+  public void setLetterValue() {
     int randomInt = (int) ((Math.random() * 10) + 1) * 100;    
     currentLetterValue = randomInt;
   }
 
-  public boolean isSolved(String guess)
-  {
-    if (phrase.equals(guess))
-    {
-      return true;
+  public void displayInitialSolvedPhrase() {
+    for (int i = 0; i < phrase.length(); i++) {
+      if (phrase.charAt(i) == ' ') {
+        solvedPhrase += "  ";
+      } else {
+        solvedPhrase += "_ ";
+      }
     }
-    return false;
+    // System.out.println("Phrase: " + solvedPhrase.substring(0,solvedPhrase.length()/2));
+  }
+
+  public boolean guessLetter(char guess) {
+    boolean foundLetter = false;
+    String newSolvedPhrase = "";
+    for (int i = 0; i < phrase.length(); i++) {
+      if (phrase.charAt(i) == guess) {
+        newSolvedPhrase += guess + " ";
+        foundLetter = true;
+      } else {
+        newSolvedPhrase += solvedPhrase.substring(i * 2, i * 2 + 1) + " ";  
+      }
+    }
+    solvedPhrase = newSolvedPhrase;
+    return foundLetter;
   }
 
   private String loadPhrase()
   {
     String tempPhrase = "";
-    
+
     int numOfLines = 0;
     try 
     {
@@ -55,9 +72,9 @@ public class  Board
         numOfLines++;
       }
     } catch(Exception e) { System.out.println("Error reading or parsing phrases.txt"); }
-    
-		int randomInt = (int) ((Math.random() * numOfLines) + 1);
-    
+
+    int randomInt = (int) ((Math.random() * numOfLines) + 1);
+
     try 
     {
       int count = 0;
@@ -72,7 +89,7 @@ public class  Board
         }
       }
     } catch (Exception e) { System.out.println("Error reading or parsing phrases.txt"); }
-    
+
     for (int i = 0; i < tempPhrase.length(); i++)
     {
       if (tempPhrase.substring(i, i + 1).equals(" "))
@@ -84,28 +101,14 @@ public class  Board
         solvedPhrase += "_ ";
       }
     }  
-    
+
     return tempPhrase;
   }  
+/*
+  preconditions: user guess must be stored in a variable and passed into guessLetter
+  postconditions: if the user guess is in the phrase, the phrase is updated with the guessed letter. foundLetter is changed to true. If the user guess is not in the phrase, the phrase is not updated. foundLetter is kept at false.
 
-  public boolean guessLetter(String guess)
-  {
-    boolean foundLetter = false;
-    String newSolvedPhrase = "";
-    
-    for (int i = 0; i < phrase.length(); i++)
-    {
-      if (phrase.substring(i, i + 1).equals(guess))
-      {
-        newSolvedPhrase += guess + " ";
-        foundLetter = true;
-      }
-      else
-      {
-        newSolvedPhrase += solvedPhrase.substring(i * 2, i * 2 + 1) + " ";  
-      }
-    }
-    solvedPhrase = newSolvedPhrase;
-    return foundLetter;
-  } 
-} 
+
+  */
+
+}

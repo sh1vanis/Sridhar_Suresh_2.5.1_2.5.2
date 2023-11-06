@@ -15,9 +15,10 @@ public class Player
   /* your code here - constructor(s) */ 
   public Player() {
     Scanner sc = new Scanner(System.in);
-    String newName = sc.nextLine();
-    System.out.println("What is your Name? ");
-    name = newName;
+    System.out.println("What is your name? ");
+    String input = sc.nextLine();
+    
+    name = input;
     System.out.println("Welcome to the game, "+ name);
     points = 0;
   }
@@ -28,7 +29,7 @@ public class Player
   }
 
 
-  
+
   /* your code here - accessor(s) */ 
   public String getName() {
     return name;
@@ -39,19 +40,19 @@ public class Player
   public String getGuess() {
     return guess;
   }
-  
+
   /* your code here - mutator(s) */ 
   public void setName(String name) {
     this.name = name;
   }
-  public void setPoints(double points) {
+  public void addToPoints(double points) {
     this.points += points;
   }
-  
-  
+
+
   public void skipTurn() {
     hasTurn = false;
   }
-  
+
 }
-  
+
